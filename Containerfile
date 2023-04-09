@@ -1,9 +1,11 @@
 FROM docker.io/library/centos:7
 MAINTAINER midu@redhat.com
-
+#
+ENV PRE_GA_INDEX="quay.io/midu/olm/redhat-operator-index"
+ENV PRE_GA_TAG="v4.13"
 # upgrading the image and installing packages to the container
-RUN yum upgrade -y && yum upgrade -y && yum install epel-release -y && yum install jq -y 
-# trim a little 
+RUN yum upgrade -y && yum upgrade -y && yum install epel-release -y && yum install jq -y
+# trim a little
 RUN yum autoremove -y
 # creating the admin user
 RUN useradd -ms /bin/bash admin
@@ -24,13 +26,11 @@ WORKDIR /home/admin/render-workdir
 RUN curl -O -L https://github.com/operator-framework/operator-registry/releases/download/v1.26.2/linux-amd64-opm
 # making sure that linux-amd64-opm is executable
 RUN chmod a+x linux-amd64-opm
-# 
-ENV PRE_GA_INDEX=quay.io/midu/olm/redhat-operator-index:v4.13
-# creating the render index js 
-RUN  ./linux-amd64-opm render ${PRE_GA_INDEX} > render.json
-# copy the translate.jq 
+# copy the translate.jq
 COPY translate.jq /home/admin/render-workdir/translate.jq
-# 
-RUN jq -r -f translate.jq render.json
+#
+COPY render.sh /home/admin/render-workdir/render.sh
+# making sure that render.sh is executable
+RUN ls -l /home/admin/render-workdir/
 
-CMD ["/bin/bash"]
+CMD /bin/bash -c '/home/admin/render-workdir/render.sh ${PRE_GA_INDEX} ${PRE_GA_TAG}; /bin/bash'
