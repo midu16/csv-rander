@@ -19,7 +19,9 @@ USER admin
 # switching to admin homedirectory
 WORKDIR /home/admin
 # creating the workdirectory
-RUN mkdir -p /home/admin/render-workdir
+RUN mkdir -p /home/admin/render-workdir && mkdir -p /home/admin/.docker
+# creating /home/admin/.docker
+VOLUME /home/admin/.docker
 # switching to the workdirectory
 WORKDIR /home/admin/render-workdir
 # downloading the linux-adm64-opm binary
