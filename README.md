@@ -3,7 +3,7 @@ This repo is design to host the raw code of the csv-rander container image which
 
 ## How to use the `csv-rander`:
 
-Obtain the [pull-secret][pull-secret.json] to obtain the access to the `redhat-operator-index`, save it to a path in your workstation.
+Obtain the [pull-secret][pull-secret.json] to gain the access to the `redhat-operator-index`, save it to a path in your workstation.
 
 - building the container-base-image:
 ```bash
