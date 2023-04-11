@@ -20,3 +20,13 @@ $ podman logs <conainer-id>
 ```bash
 $ podman run -d -e PRE_GA_INDEX=registry.redhat.io/redhat/redhat-operator-index -e PRE_GA_TAG=v4.12 -v /path/to/saved/pull-secret.json/dir:/home/admin/.docker:Z quay.io/midu/csv-rander:latest
 ```
+
+The directory structure of `/path/to/saved/pull-secret.json/dir`:
+```bash
+$ ls -l /path/to/saved/pull-secret.json/dir/
+-rw-r--r-- 1 midu   midu       3126 Apr  9 20:06 config.json
+-rw-r--r-- 1 100999 100999        0 Apr 11 08:04 redhat-operator-index.csv
+```
+
+- `config.json` its the [pull-secret.json][pull-secret.json].
+- `redhat-operator-index.csv` its the `registry.redhat.io/redhat/redhat-operator-index:v4.12` indexed rendered data for further processing. Each iteration will create a new file.
